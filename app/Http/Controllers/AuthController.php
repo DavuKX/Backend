@@ -3,19 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use http\Cookie;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ *
+ */
 class AuthController extends Controller
 {
+    /**
+     * @return string
+     */
     public function user(): string
     {
         return Auth::user();
     }
 
+    /**
+     * @param Request $request
+     * @return User
+     */
     public function register(Request $request): User
     {
         return User::create([
@@ -25,7 +37,11 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(Request $request)
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|ResponseFactory|Application|\Illuminate\Http\Response
+     */
+    public function login(Request $request): Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
         if(!Auth::attempt($request->only('email', 'password')))
         {
@@ -44,9 +60,13 @@ class AuthController extends Controller
         ])->withCookie($cookie);
     }
 
-    public function logout()
+
+    /**
+     * @return Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
+     */
+    public function logout(): Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|ResponseFactory
     {
-        $cookie = \Illuminate\Support\Facades\Cookie::forget('jwt');
+        $cookie = Cookie::forget('jwt');
 
         return response([
             'message' => 'Log out successful'
