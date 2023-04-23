@@ -22,3 +22,9 @@ Route::prefix('user')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
     });
 });
+
+Route::middleware('auth:sanctum')->group(function () {
+    foreach (glob(__DIR__ . '/api/*.php') as $filename) {
+        require $filename;
+    }
+});
