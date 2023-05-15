@@ -19,6 +19,8 @@ class Rol extends Model
         'name',
     ];
 
+    protected $table = 'roles';
+
 
     /**
      * @return BelongsToMany

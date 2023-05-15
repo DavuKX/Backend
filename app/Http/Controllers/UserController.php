@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
@@ -32,7 +31,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user): \Illuminate\Foundation\Application|\Illuminate\Http\Response|Application|ResponseFactory
     {
-        $data = $request->validated();
+        $data = $request->all();
+        $data['password'] = bcrypt($data['password']);
 
         $user->update($data);
 
@@ -42,8 +42,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $user): \Illuminate\Foundation\Application|\Illuminate\Http\Response|Application|ResponseFactory
     {
-        //
+        $user->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

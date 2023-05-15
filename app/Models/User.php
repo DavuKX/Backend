@@ -66,4 +66,9 @@ class User extends Authenticate
     {
         return $this->belongsToMany(Rol::class);
     }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->roles()->where('name', $role)->exists();
+    }
 }

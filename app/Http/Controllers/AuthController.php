@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rol;
 use App\Models\User;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Application;
@@ -26,20 +27,11 @@ class AuthController extends Controller
 
     /**
      * @param Request $request
-     * @return User
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\Response|Application|ResponseFactory
      */
-    public function register(Request $request): User
+    public function register(Request $request): \Illuminate\Contracts\Foundation\Application|ResponseFactory|Application|\Illuminate\Http\Response
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name'  => 'required|string|max:255',
-            'username'   => 'required|string|max:255|unique:users',
-            'city_id'    => 'required|integer|exists:cities,id',
-            'email'      => 'required|string|email|max:255|unique:users',
-            'password'   => 'required|string|min:8|confirmed',
-        ]);
-
-        return User::create([
+        $user = User::create([
             'first_name' => $request->input('first_name'),
             'last_name'  => $request->input('last_name'),
             'username'   => $request->input('username'),
@@ -47,6 +39,21 @@ class AuthController extends Controller
             'email'      => $request->input('email'),
             'password'   => Hash::make($request->input('password')),
         ]);
+
+        if ($request->input('rol') === null)
+        {
+            $rol = Rol::where('name', 'Empleado')->first();
+            $user->roles()->attach($rol);
+        }
+        else
+        {
+            $rol = Rol::where('name', $request->input('rol'))->first();
+            $user->roles()->attach($rol);
+        }
+
+        return response([
+            'message' => 'User created'
+        ], Response::HTTP_CREATED);
     }
 
     /**
