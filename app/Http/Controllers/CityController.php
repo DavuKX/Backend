@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCityRequest;
-use App\Http\Requests\UpdateCityRequest;
+use App\Http\Requests\City\StoreCityRequest;
+use App\Http\Requests\City\UpdateCityRequest;
 use App\Models\City;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Application;

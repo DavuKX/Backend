@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreOfferRequest;
-use App\Http\Requests\UpdateOfferRequest;
+use App\Http\Requests\Offer\StoreOfferRequest;
+use App\Http\Requests\Offer\UpdateOfferRequest;
 use App\Models\Offer;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreApplicationRequest;
-use App\Http\Requests\UpdateApplicationRequest;
+use App\Http\Requests\Application\StoreApplicationRequest;
+use App\Http\Requests\Application\UpdateApplicationRequest;
 use App\Models\Application;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;

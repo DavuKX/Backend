@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Assessment;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\Auth;
 
-class StoreApplicationRequest extends FormRequest
+class StoreAssessmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Auth::user()->hasRole('Empleado') || Auth::user()->hasRole('Admin');
+        return true;
     }
 
     /**
@@ -26,10 +25,10 @@ class StoreApplicationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id'   => 'required|exists:users,id',
-            'offer_id'  => 'required|exists:offers,id',
-            'status'    => 'in:pending,accepted,rejected',
-            'message'   => 'nullable|max:255',
+            'user_id'       => 'required|exists:users,id',
+            'experience_id' => 'required|exists:experiences,id',
+            'comment'       => 'nullable|max:255',
+            'score'         => 'required|numeric|between:0,5',
         ];
     }
 
