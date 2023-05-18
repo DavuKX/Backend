@@ -69,20 +69,16 @@ class AuthController extends Controller
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        $user = Auth::user();
-        $userData = [
-            'username' => $user->username,
-            'roles'    => $user->roles,
-        ];
+        $user = Auth::user()->load('roles');
 
         $token = $user->createToken('session')->plainTextToken;
         $cookie = \cookie('jwt', $token, 60 * 24);
 
         return response([
-            'message' => 'Login success'
+            'message' => 'Login success',
+            'data' => $user,
         ])
-        ->withCookie($cookie)
-        ->withCookie('user_data', json_encode($userData));
+        ->withCookie($cookie);
     }
 
 
