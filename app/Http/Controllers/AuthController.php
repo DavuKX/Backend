@@ -70,13 +70,19 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
+        $userData = [
+            'username' => $user->username,
+            'roles'    => $user->roles,
+        ];
 
         $token = $user->createToken('session')->plainTextToken;
         $cookie = \cookie('jwt', $token, 60 * 24);
 
         return response([
             'message' => 'Login success'
-        ])->withCookie($cookie);
+        ])
+        ->withCookie($cookie)
+        ->withCookie('user_data', json_encode($userData));
     }
 
 
