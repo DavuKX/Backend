@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
+use App\Models\Country;
 use App\Models\Rol;
+use App\Models\State;
 use App\Models\User;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Application;
@@ -31,11 +34,33 @@ class AuthController extends Controller
      */
     public function register(Request $request): \Illuminate\Contracts\Foundation\Application|ResponseFactory|Application|\Illuminate\Http\Response
     {
+        $city = City::where('name', $request->input('city'))->first();
+
+        if (!$city)
+        {
+            $state = State::where('name', $request->input('department'))->first();
+
+            if (!$state)
+            {
+                $country = Country::where('name', 'Colombia')->first();
+
+                $state = State::create([
+                    'name' => $request->input('department'),
+                    'country_id' => $country->id
+                ]);
+            }
+
+            $city = City::create([
+                'name'     => $request->input('city'),
+                'state_id' => $state->id
+            ]);
+        }
+
         $user = User::create([
             'first_name' => $request->input('first_name'),
             'last_name'  => $request->input('last_name'),
             'username'   => $request->input('username'),
-            'city_id'    => $request->input('city_id'),
+            'city_id'    => $city->id,
             'email'      => $request->input('email'),
             'password'   => Hash::make($request->input('password')),
         ]);
@@ -55,6 +80,7 @@ class AuthController extends Controller
             'message' => 'User created'
         ], Response::HTTP_CREATED);
     }
+
 
     /**
      * @param Request $request
