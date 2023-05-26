@@ -4,14 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Offer\StoreOfferRequest;
 use App\Http\Requests\Offer\UpdateOfferRequest;
-use App\Models\City;
-use App\Models\Country;
 use App\Models\Offer;
-use App\Models\State;
-use App\Http\Controllers\Helpers;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 class OfferController extends Controller
@@ -19,6 +15,12 @@ class OfferController extends Controller
     public function index(): JsonResponse
     {
         $offers = Offer::all()->load( 'city');
+        return response()->json($offers, HttpResponse::HTTP_OK);
+    }
+
+    public function getByUserId(User $user): JsonResponse
+    {
+        $offers = Offer::where('user_id', $user->id)->get()->load('city');
         return response()->json($offers, HttpResponse::HTTP_OK);
     }
 
