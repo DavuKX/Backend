@@ -8,9 +8,9 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateOfferRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
-        return $this->user()->hasRole('Contratista');
+        return true;
     }
 
     public function rules(): array
