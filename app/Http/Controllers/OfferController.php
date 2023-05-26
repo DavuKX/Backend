@@ -49,7 +49,7 @@ class OfferController extends Controller
     public function update(UpdateOfferRequest $request, Offer $offer): JsonResponse
     {
         $validated = $request->validated();
-        $city = Helpers::getOrCreateCity($validated['city'], $validated['departament']);
+        $city = Helpers::getOrCreateCity($validated['city'], $validated['departament'] ?? null);
         $validated['city_id'] = $city->id;
 
         $offer = $offer->update($validated);
