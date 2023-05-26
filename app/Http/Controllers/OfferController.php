@@ -7,7 +7,6 @@ use App\Http\Requests\Offer\UpdateOfferRequest;
 use App\Models\Offer;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Request;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 class OfferController extends Controller
@@ -50,8 +49,15 @@ class OfferController extends Controller
     public function update(UpdateOfferRequest $request, Offer $offer): JsonResponse
     {
         $validated = $request->validated();
+        $city = Helpers::getOrCreateCity($validated['city'], $validated['departament']);
+        $validated['city_id'] = $city->id;
 
-        $offer->update($validated);
+        $offer = $offer->update($validated);
+
+        if (!$offer)
+        {
+            return response()->json(['message' => 'Error updating the offer'], HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
         return response()->json($offer, HttpResponse::HTTP_OK);
     }

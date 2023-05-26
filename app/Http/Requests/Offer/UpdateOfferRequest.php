@@ -19,8 +19,7 @@ class UpdateOfferRequest extends FormRequest
             'title'         => 'sometimes|required|string',
             'description'   => 'nullable|string',
             'salary'        => 'sometimes|required|numeric|min:0',
-            'city_id'       => 'sometimes|required|exists:cities,id',
-            'user_id'       => 'sometimes|required|exists:users,id',
+            'city'          => 'sometimes|string',
             'closing_date'  => 'nullable|date',
             'is_active'     => 'boolean',
         ];
