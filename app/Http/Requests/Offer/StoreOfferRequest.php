@@ -20,7 +20,7 @@ class StoreOfferRequest extends FormRequest
             'description'   => 'nullable|string',
             'salary'        => 'required|numeric|min:0',
             'city'          => 'required|string',
-            'department'    => 'required|string',
+            'departament'    => 'required|string',
             'closing_date'  => 'nullable|date_format:Y-m-d',
             'is_active'     => 'boolean',
         ];

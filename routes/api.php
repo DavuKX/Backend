@@ -23,7 +23,7 @@ Route::prefix('user')->group(function () {
     });
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::prefix('')->group(function () {
     foreach (glob(__DIR__ . '/api/*.php') as $filename) {
         require $filename;
     }

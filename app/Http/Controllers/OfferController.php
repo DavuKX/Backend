@@ -24,9 +24,9 @@ class OfferController extends Controller
     public function store(StoreOfferRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $city = Helpers::getOrCreateCity($validated['city'], $validated['department']);
+        $city = Helpers::getOrCreateCity($validated['city'], $validated['departament']);
         $data = array_merge($validated, [
-            'user_id' => Auth::user()?->id,
+            'user_id' => 11,
             'city_id' => $city->id,
         ]);
         $offer = Offer::create($data);
