@@ -8,9 +8,9 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreOfferRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
-        return $this->user()->hasRole('Contratista');
+        return true;
     }
 
     public function rules(): array
@@ -19,8 +19,8 @@ class StoreOfferRequest extends FormRequest
             'title'         => 'required|string',
             'description'   => 'nullable|string',
             'salary'        => 'required|numeric|min:0',
-            'city_id'       => 'required|exists:cities,id',
-            'user_id'       => 'required|exists:users,id',
+            'city'          => 'required|string',
+            'department'    => 'required|string',
             'closing_date'  => 'nullable|date_format:Y-m-d',
             'is_active'     => 'boolean',
         ];
