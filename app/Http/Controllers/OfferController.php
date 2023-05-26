@@ -9,6 +9,7 @@ use App\Models\Country;
 use App\Models\Offer;
 use App\Models\State;
 use App\Http\Controllers\Helpers;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -26,7 +27,7 @@ class OfferController extends Controller
         $validated = $request->validated();
         $city = Helpers::getOrCreateCity($validated['city'], $validated['departament']);
         $data = array_merge($validated, [
-            'user_id' => 11,
+            'user_id' => User::all()->first()->id,
             'city_id' => $city->id,
         ]);
         $offer = Offer::create($data);
